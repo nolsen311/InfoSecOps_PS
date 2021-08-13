@@ -1,5 +1,5 @@
 Function Get-BotCredLocation {
-    return Join-Path -Path "$functions_dir/assets/InfoSecBot.credential"
+    return Join-Path -Path $functions_dir -ChildPath "/assets/InfoSecBot.credential"
 }
 Function Get-BotCreds {
     return (Import-CliXml -Path $(Get-BotCredLocation))
