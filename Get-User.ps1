@@ -57,8 +57,10 @@
     
         $displayForm.ShowDialog()
     }
+    $PSStyle.OutputRendering = "Plaintext"
     $clippy = '```' + "`n" + ($clippy | Out-String).Trim() + "`n" + '```'
-    $clippy | clip
+    $clippy | Set-Clipboard
+    $PSStyle.OutputRendering = "Ansi"
     Write-Host -ForegroundColor Yellow 'Use $ad_user object for full properties list'
     Write-Host -ForegroundColor Yellow 'User properties have been saved to the Clipboard'
 }
