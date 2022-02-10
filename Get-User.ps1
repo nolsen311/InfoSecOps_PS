@@ -50,7 +50,7 @@
                                         Photo = $_.thumbnailPhoto
                                         }
             }
-    $user | Select-Object -Property * -ExcludeProperty Photo | Tee-Object -Variable clippy
+    $user | Select-Object -Property * -ExcludeProperty Photo #| Tee-Object -Variable clippy 
     if ($WithPhoto) {
         [void][Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
         $displayForm = New-Object Windows.Forms.Form
@@ -68,7 +68,8 @@
         $displayForm.ShowDialog()
     }
     $PSStyle.OutputRendering = "Plaintext"
-    $clippy = '```' + "`n" + ($clippy | Out-String).Trim() + "`n" + '```'
+    $clippy = '```' + "`n" + ($user | Select-Object -Property * -ExcludeProperty Photo | Out-String).Trim() + "`n" + '```'
+    # $clippy = '```' + "`n" + ($clippy | Out-String).Trim() + "`n" + '```'
     $clippy | Set-Clipboard
     $PSStyle.OutputRendering = "Ansi"
     Write-Host -ForegroundColor Yellow 'Use $ad_user object for full properties list'
