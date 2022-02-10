@@ -18,7 +18,6 @@
                    HelpMessage="Would you like to save the photo to a file?")]
         [switch]$SavePhoto = $false
     )
-    $PSStyle.OutputRendering = "Plaintext"
     $global:ad_user = Get-ADUser $UserName -Properties *
 
     $user = `
@@ -79,5 +78,4 @@
         $user.Photo | Set-Content $photo -Encoding byte
         Write-Host -ForegroundColor Yellow "User photo saved to $photo"
     }
-    $PSStyle.OutputRendering = "Ansi"
 }
