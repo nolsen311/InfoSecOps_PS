@@ -22,6 +22,13 @@ Function Clear-TempDirs {
         Where-Object { $_.CreationTime -lt $date_offset } |
         Sort-Object -Property LastWriteTime -Descending
     }
+    $deleted_files += `
+    Get-ChildItem -Path (Join-Path -Path $temp_dir_base_path -ChildPath Fireshot) |
+    ForEach-Object {
+            Get-ChildItem -Path $_.FullName -Recurse |
+            Where-Object { $_.CreationTime -lt $date_offset } |
+            Sort-Object -Property LastWriteTime -Descending
+    }
 
     Write-Verbose "Files older than $(Get-Date($date_offset) -UFormat '%m-%d-%Y') will be deleted"
 
