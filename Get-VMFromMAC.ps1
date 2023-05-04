@@ -3,13 +3,16 @@ function Get-VMFromMAC {
     param (
         [Parameter(Mandatory=$true)]
         [string]
-        $MACAddress
+        $MACAddress,
+        [Parameter(Mandatory=$true)]
+        [string]
+        $VCenterServer
     )
     Import-Module VMware.VimAutomation.Core
 
     Set-PowerCLIConfiguration -InvalidCertificateAction Ignore
     
-    Connect-VIServer -Server oly-vcenter-01 -Protocol https -Credential (Get-Credential) -AllLinked
+    Connect-VIServer -Server $VCenterServer -Protocol https -Credential (Get-Credential) -AllLinked
 
     $output = `
     Get-VM | 
