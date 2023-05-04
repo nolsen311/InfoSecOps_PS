@@ -1,8 +1,9 @@
 ﻿Function Start-RemoteMailSearch {
+    $onprem_exchange_mailbox_server = "%%INSERT SERVER NAME HERE%%"
 
     $global:exch_stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
     
-    $script:exchangeURI = "http://oly-ex13mbx-01.wsecu.int/PowerShell/"
+    $script:exchangeURI = "http://$onprem_exchange_mailbox_server/PowerShell/"
     $script:MyCredentials = (Get-Credential -Message "Exchange Mailbox Server")
     
     $Exch_Session = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri $exchangeURI -Authentication Kerberos -Credential $MyCredentials
