@@ -1,4 +1,7 @@
-﻿function Get-User { 
+# This can run in either Powershell or Windows Powershell, but pictures only work in Windows (Windows.Forms)
+# un-comment the requires statement if you want to use it in Powershell Desktop
+# #requires -PSedition Desktop
+function Get-User { 
     [CmdletBinding(DefaultParameterSetName='Default')]
     param
     (
