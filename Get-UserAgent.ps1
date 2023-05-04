@@ -1,3 +1,4 @@
+$global:access_key = "%%INSERT API KEY%%"
 function Get-UserAgent {
     [CmdletBinding()]
     param (
@@ -6,11 +7,10 @@ function Get-UserAgent {
         $UserAgent
     )
     $UserAgent = [System.Web.HttpUtility]::UrlEncode($UserAgent)
-
     # $user_agents = $csv_content.UserAgent
     # $user_agents |
     $output = `
-    @( $response = Invoke-RestMethod -Uri "http://api.userstack.com/detect?access_key=ca06cf167c405d4be9c5fd0f07d9c8de&ua=$UserAgent" `
+    @( $response = Invoke-RestMethod -Uri "http://api.userstack.com/detect?access_key=$($access_key)&ua=$($UserAgent)" `
             -Method POST
             [PSCustomObject] @{
                 Browser = [string] $response.Browser.name
@@ -28,7 +28,10 @@ function Get-UserAgentsFromFile {
     param (
         [Parameter()]
         [string]
-        $File="$Env:USERPROFILE\Downloads\TEMP_PAN\20201208*.csv"
+        $InputFile,
+        [Parameter()]
+        [string]
+        $OutputFile
     )
     $csv_content = `
     Get-Content $File |
@@ -40,7 +43,7 @@ function Get-UserAgentsFromFile {
     $output = `
     @( $csv_content |
         ForEach-Object {
-            $response = Invoke-RestMethod -Uri "http://api.userstack.com/detect?access_key=ca06cf167c405d4be9c5fd0f07d9c8de&ua=$($_.UserAgent)" `
+            $response = Invoke-RestMethod -Uri "http://api.userstack.com/detect?access_key=$($access_key)&ua=$($_.UserAgent)" `
             -Method POST
             [PSCustomObject] @{
                 Browser = [string] $response.Browser.name
@@ -58,6 +61,6 @@ function Get-UserAgentsFromFile {
                     }
                 } |
                 Sort-Object -Property Count -Descending
-    $output | ConvertTo-Csv | Out-File -FilePath $Env:UserProfile\Desktop\20201208_UserAgent_Parsed.csv
+    $output | ConvertTo-Csv | Out-File -FilePath $OutputFile
 
 }
