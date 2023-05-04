@@ -1,4 +1,5 @@
-﻿Function Get-PatchTuesday {
+# Borrowed from somewhere else, IDK where.
+Function Get-PatchTuesday {
   <#
     .SYNOPSIS
     Returns the patch Tuesday date for current month and year or based on supplied parameters.
