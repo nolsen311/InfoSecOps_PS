@@ -1,5 +1,3 @@
-﻿# requires -Module ImportExcel
-# $ou="ou=Consultants,ou=Users,ou=WSECU,dc=wsecu,dc=int"
 function Send-PhishProneEmails {
     [CmdletBinding()]
     param (
@@ -12,8 +10,7 @@ function Send-PhishProneEmails {
         $File
     )
     $month_name="$(Get-Date -UFormat '%B')"
-    # $output_file="$env:userprofile\Desktop\WSECU_-_$(Get-Date -UFormat '%Y%m')_-_Vendor_Account_Audit.csv"
-    $phishing_guide = "assets/Phishing` Conversation` Guide.pdf"
+    $phishing_guide = "assets/Phishing` Conversation` Guide.pdf" # whatever attachments you want to send
 $email_body = @"
 %%MANAGER%%,
 <p>I'm following up with leaders to provide information on your staff who recently
@@ -28,14 +25,10 @@ on a mock phish, which outlines the "red flag" areas on the email. Our request i
 that you provide follow-up coaching using the attached guide during a conversation 
 and gain some insight into what tripped them up (why they failed to identfy the phish).
 <p>
-<p>I am no longer requesting employee responses be submitted to me.
-<p><b>Steps 1-3 in the guide may be skipped</b>
 <p>
 <p>Thank you,
-<br>Nate Olsen
+<br%%YOUR NAME%%
 "@
-
-    # if (Test-Path -Path $output_file -PathType Leaf) { rm $output_file }
 
     $clickers = Import-Csv -Path $File -Encoding utf8
     $leaders_name = $($clickers)."Manager Name" | Sort-Object -Unique
@@ -58,8 +51,8 @@ and gain some insight into what tripped them up (why they failed to identfy the 
         Send-MailMessage -Attachments $phishing_guide `
                          -Body $temp_body `
                          -BodyAsHtml `
-                         -From "infosec@wsecu.org" `
-                         -Smtp "outlook.wsecu.net" `
+                         -From "%%YOUR EMAIL ADDRESS%%" `
+                         -Smtp "%%YOUR SMTP SERVER%%" `
                          -Subject "$email_subject" `
                          -To $ldr_email `
                          -Priority High `
@@ -69,10 +62,10 @@ and gain some insight into what tripped them up (why they failed to identfy the 
         # Send-MailMessage -Attachments $phishing_guide `
         #                  -Body $temp_body `
         #                  -BodyAsHtml `
-        #                  -From "infosec@wsecu.org" `
-        #                  -Smtp "outlook.wsecu.net" `
+        #                  -From "%%YOUR EMAIL ADDRESS%%" `
+        #                  -Smtp "%%YOUR SMTP SERVER%%" `
         #                  -Subject "$email_subject" `
-        #                  -To "nolsen@wsecu.org" `
+        #                  -To "%%YOUR EMAIL ADDRESS%%" `
         #                  -Priority High `
         #                  -Encoding utf8
         Clear-Variable temp_body 
