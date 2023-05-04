@@ -1,4 +1,5 @@
-﻿function Get-GroupUsers { 
+# Incomplete - an attempt to poll all users of a specific AD group, with photos when possible
+function Get-GroupUsers { 
     [CmdletBinding()]
     param
     (
