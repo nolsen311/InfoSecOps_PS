@@ -10,7 +10,7 @@ function Get-SharedMailboxUsers {
     Get-ActiveEXOSession
     $my_mailbox = Get-EXOMailbox $Name
     Get-MailboxPermission $my_mailbox.Name |
-    Where-Object { $_.User -like "*wsecu.org" } |
+    Where-Object { $_.User -like "%%PUT YOUR DOMAIN FILTER HERE%%" } |
     Select-Object -ExpandProperty User
 }
 function Get-ActiveEXOSession {
